@@ -16,11 +16,23 @@ import java.util.Map;
 
 public class Main {
 
-    // ====== CHANGE THESE TO MATCH YOUR MYSQL ======
-    static final String DB_URL = "jdbc:mysql://localhost:3306/student_db";
-    static final String DB_USER = "root";
-    static final String DB_PASSWORD = "root";
-    // ==============================================
+    // ====== DATABASE SETTINGS (read from environment variables, so no password lives in the repository) ======
+    //   DB_PASSWORD  required - your MySQL password
+    //   DB_USER      optional - defaults to root
+    //   DB_URL       optional - defaults to jdbc:mysql://localhost:3306/student_db
+    static final String DB_URL = env("DB_URL", "jdbc:mysql://localhost:3306/student_db");
+    static final String DB_USER = env("DB_USER", "root");
+    static final String DB_PASSWORD = env("DB_PASSWORD", null);
+
+    static String env(String name, String fallback) {
+        String value = System.getenv(name);
+        if (value != null && !value.isEmpty()) return value;
+        if (fallback != null) return fallback;
+        System.err.println("Set the " + name + " environment variable to your MySQL password, then run again.");
+        System.exit(1);
+        return null;
+    }
+    // =======================================================================================================
 
     public static void main(String[] args) throws Exception {
         HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);

@@ -16,10 +16,14 @@ Built with plain Java (JDBC), MySQL, HTML and CSS. No frameworks.
    ```
    mysql -u root -p < database.sql
    ```
-2. In `Main.java`, set your MySQL password:
-   ```java
-   static final String DB_PASSWORD = "your_password";
+2. Give the app your MySQL password through an environment variable (it is not stored in the code):
    ```
+   # Windows PowerShell
+   $env:DB_PASSWORD = "your-mysql-password"
+   # Mac / Linux
+   export DB_PASSWORD="your-mysql-password"
+   ```
+   Optional: `DB_USER` (default `root`) and `DB_URL` (default `jdbc:mysql://localhost:3306/student_db`).
 3. Compile:
    ```
    javac -cp "lib/*" -d out Main.java
